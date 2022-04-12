@@ -1,0 +1,1 @@
+{"brightness": "120", "space": 465, "freeSpace": 465}

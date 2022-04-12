@@ -1,0 +1,1 @@
+{"startTime": "2020-10-09 18:05:24", "distTraveled": 0.0, "fuelConsumpt": 0.0, "engineLoad": 20.784313725490197, "coolantTemp": 81, "consumption": 19, "averageSpeed": 30, "averageRPM": 3200, "averageCons": 8, "speed": 54,"temperature": 27,"humidity": 23, "acceleration": 0.813241}

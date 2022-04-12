@@ -1,0 +1,283 @@
+<head>
+    <title>KRUCI</title>
+    <link href="/css/fonts/robotoFont.css" rel="stylesheet" type="text/css">
+    <link href="/css/fonts/teslaFont.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
+    <script src="/js/Chart.min.js"></script>
+    <script src="/js/jquery-dateformat.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/webcam-easy.min.js"></script>
+</head>
+<body>
+    <div id="warning">
+        <div>
+            <img src="/images/warning.svg">
+            <p>Światła są wyłączone!</p>
+        </div>
+    </div>
+    <div id="grid">
+        <div class="round" id="navigation">
+            <div class="navCategory active" id="main" onclick="activate('main', 'speed')">
+                <div class="container">
+                  <img src="/images/speedActive.svg">
+                    <p>Przegląd</p>
+                    <div class="line"></div>
+                </div>
+            </div>
+            <div class="navCategory" id="cameras" onclick="activate('cameras', 'camera')">
+                <div class="container">
+                    <img src="/images/camera.svg">
+                    <p>Kamery</p>
+                    <div class="line"></div>
+                </div>
+            </div>
+            <div class="navCategory" id="settings" onclick="activate('settings', 'gear')">
+                <div class="container">
+                    <img src="/images/gear.svg">
+                    <p>Ustawienia</p>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <div id="mainGrid">
+            <div class="round" id="travel">
+                <h1>Podróż</h1>
+                <div id="speedDetail">
+                    <h3 id="speed">00</h3>
+                    <p>km/h</p>
+                    <p id="acceleration">0 g</p>
+                </div>
+                <div id="chartArea">
+                    <p>Wykres spalania przez ostatnią minutę [L/100km]</p>
+                    <canvas id="consumptionChart"></canvas>
+                </div>
+            </div>
+            <div class="round" id="route">
+                <h1>Trasa</h1>
+                <div id="routeDetail">
+                    <div id="sinceStart" class="infoText">
+                        <p class="mainText">00:00</p>
+                        <p class="bottomText">Godziny</p>
+                    </div>
+                    <div id="distance" class="infoText">
+                        <p class="mainText" id="">000</p>
+                        <p class="bottomText">Kilometry</p>
+                    </div>
+                    <div id="fuel" class="infoText">
+                        <p class="mainText" id="">0.0</p>
+                        <p class="bottomText">Litry</p>
+                    </div>
+                </div>
+                <div id="routeDetails">
+                </div>
+            </div>
+            <div class="round" id="date">
+                <div id="dateFormat">
+                    <p>Poniedziałek</p>
+                    <p>00:00</p>
+                    <p>00.00.0000</p>
+                </div>
+            </div>
+            <div id="engineAtmo">
+                <div class="round" id="atmosphere">
+                    <h1 class="inactive">Atmosfera</h1>
+                    <div class="icons" id="temperature">
+                        <img class="inactive" src="/images/thermometer.svg">
+                        <p class="inactive">Temperatura</p>
+                        <p>00</p>
+                    </div>
+                    <div class="icons" id="humidity">
+                        <img class="inactive" src="/images/humidity.svg">
+                        <p class="inactive">Wilnotność</p>
+                        <p>00</p>
+                    </div>
+                </div>
+                <div class="round" id="engine" onclick="shuffle(1)">
+                    <p>Silnik</p>
+                </div>
+            </div>
+            <div class="round" id="details">
+                <h1>Szczegóły</h1>
+                <div class="icons inactive" id="consumption">
+                    <img src="/images/consumption.svg">
+                    <p>Chwilowe Spalanie</p>
+                    <p>00</p>
+                </div>
+                <div class="icons inactive" id="averageSpeed">
+                    <img src="/images/cheetah.svg">
+                    <p>Średnia prędkość</p>
+                    <p>00</p>
+                </div>
+
+                <div class="icons activated" id="averageCons">
+                    <img src="/images/exhaust.svg">
+                    <p>Średnie spalanie</p>
+                    <p>00</p>
+                </div>
+                <div class="icons activated" id="averageRPM">
+                    <img src="/images/engine.svg">
+                    <p>Średnie obroty</p>
+                    <p>00</p>
+                </div>
+                <div class="icons activated" id="coolant">
+                    <img src="/images/coolant.svg">
+                    <p>Ciecz chłodząca</p>
+                    <p>00</p>
+                </div>
+                <div class="icons activated" id="engineLoad">
+                    <img src="/images/weight.svg">
+                    <p>Obciążenie silnika</p>
+                    <p>00</p>
+                </div>
+            </div>
+        </div>
+        <div id="camerasGrid">
+            <div id="backup" onclick="flipThat()">
+                <video id="webcam" class="camera" width="540px" autoplay></video>
+            </div>
+        </div>
+        <div id="settingsGrid">
+            <div id="version" class="round">
+                <div>
+                    <h2>KRUCI</h2>
+                    <p>Designed by Jakub Binięda</p>
+                    <p id="build">Build 0.3.0</p>
+                </div>
+            </div>
+            <div id="freeSpace" class="round">
+                <h2 id="spaceHeader">Miejsce na zapis z kamer</h2>
+                <div id="chartArea2">
+                    <canvas id="spaceChart"></canvas>
+                </div>
+                <p id="spacePercent">00%</p>
+                <div id="text">
+                    <p>Wolne: <span class="blue">00 GB</span></p>
+                    <p>Zajęte: <span class="gray">00 GB</span></p>
+                </div>
+            </div>
+            <div id="brightness" class="round">
+                <h2>Jasność ekranu</h2>
+                <input type="range" value="0" max=255>
+                <p id="rangeValue">00%</p>
+            </div>
+            <div id="errors" class="round">
+                <div>
+                    <h2>Błędy</h2>
+                    <p id="errorCode">Brak błędów</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const webcamElement = document.getElementById('webcam');
+    const canvasElement = document.getElementById('canvas');
+    const snapSoundElement = document.getElementById('snapSound');
+    webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+
+    webcam.start()
+    .then(result =>{
+        $("#warning").css("display","none");
+        console.log("webcam started");
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
+    var selected = "back";
+
+    function flipThat() {
+        if(selected=="back") {
+            newCamera=webcam.webcamList[1].deviceId;
+            selected="front";
+        } else {
+            newCamera=webcam.webcamList[0].deviceId;
+            selected="back";
+        }
+        webcam.stop();
+        webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement, newCamera);
+        webcam.start();
+    }
+
+    var consumptionChart = document.getElementById("consumptionChart");
+    var spaceChart = document.getElementById("spaceChart");
+
+    var data = {
+        labels: consumptionLabels,
+        datasets: [
+            {
+                label: "Spalanie",
+                fill: false,
+                lineTension: 0.3,
+                backgroundColor: "rgba(75,192,192,0.4)",
+                borderColor: "rgba(52, 152, 219, 1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(52, 152, 219, 1)",
+                pointBackgroundColor: "#000",
+                pointBorderWidth: 5,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(52, 152, 219, 1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: consumptionData,
+                spanGaps: true,
+            }
+        ]
+    };
+    
+    var myChart = new Chart(consumptionChart, {
+        type: 'line',
+        data: data,
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }],
+                xAxes: [{
+                    display: false
+                }],
+            },
+        }
+    });
+
+    var data2 = {
+        labels: [
+            "Used",
+            "Free",
+        ],
+        datasets: [
+            {
+                data: [60, 40],
+                backgroundColor: [
+                    "#B2BEC3",
+                    "#3498DB",
+                ],
+                borderColor: 'transparent'                       
+            }]
+    };
+
+    var options2 = { 
+        legend: {
+            display: false
+        },
+        cutoutPercentage: 80,
+    };
+
+    var myDoughnutChart = new Chart(spaceChart, {
+        type: 'doughnut',
+        data: data2,
+        options: options2
+    });
+
+</script>
